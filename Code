@@ -1,6 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
-import re
+
 
 class WebVulnerabilityScanner:
     def __init__(self, base_url):
@@ -47,6 +47,9 @@ class WebVulnerabilityScanner:
         xss_payload = "<script>alert('XSS')</script>"
         for form in forms:
             form_action = form.get('action') or action_url
+            # Handle relative URLs
+            form_action = requests.compat.urljoin(action_url, form_action)
+
             method = form.get('method', 'get').lower()
             inputs = form.find_all('input')
             data = {}
@@ -54,14 +57,17 @@ class WebVulnerabilityScanner:
                 if inp.get('name'):
                     data[inp['name']] = xss_payload
 
-            if method == 'post':
-                response = self.session.post(form_action, data=data)
-            else:
-                response = self.session.get(form_action, params=data)
+            try:
+                if method == 'post':
+                    response = self.session.post(form_action, data=data)
+                else:
+                    response = self.session.get(form_action, params=data)
 
-            if xss_payload in response.text:
-                print(f"[!] XSS vulnerability found in form at: {form_action}")
-                return True
+                if xss_payload in response.text:
+                    print(f"[!] XSS vulnerability found in form at: {form_action}")
+                    return True
+            except Exception as e:
+                print(f"Error testing form at {form_action}: {e}")
         return False
 
     def start_scan(self):
@@ -69,25 +75,28 @@ class WebVulnerabilityScanner:
         Begin scanning the base URL for vulnerabilities.
         """
         print(f"Scanning {self.base_url}...")
-        response = self.session.get(self.base_url)
+        try:
+            response = self.session.get(self.base_url)
 
-        if response.status_code == 200:
-            # Check for vulnerabilities in GET requests
-            self.scan_for_sql_injection(self.base_url)
-            self.scan_for_xss(self.base_url)
+            if response.status_code == 200:
+                # Check for vulnerabilities in GET requests
+                self.scan_for_sql_injection(self.base_url)
+                self.scan_for_xss(self.base_url)
 
-            # Extract and test forms for XSS vulnerabilities
-            forms = self.extract_forms(response.text)
-            if forms:
-                print(f"[+] Found {len(forms)} form(s) on the page.")
-                self.scan_forms_for_xss(forms, self.base_url)
+                # Extract and test forms for XSS vulnerabilities
+                forms = self.extract_forms(response.text)
+                if forms:
+                    print(f"[+] Found {len(forms)} form(s) on the page.")
+                    self.scan_forms_for_xss(forms, self.base_url)
+                else:
+                    print("[-] No forms found on the page.")
             else:
-                print("[-] No forms found on the page.")
-        else:
-            print(f"Failed to connect to {self.base_url}. HTTP Status: {response.status_code}")
+                print(f"Failed to connect to {self.base_url}. HTTP Status: {response.status_code}")
+        except Exception as e:
+            print(f"Error scanning {self.base_url}: {e}")
+
 
 if __name__ == "__main__":
     target_url = input("Enter the URL to scan: ").strip()
     scanner = WebVulnerabilityScanner(target_url)
     scanner.start_scan()
-
