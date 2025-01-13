@@ -14,8 +14,7 @@ Duration:December 17th,2024 to january 17th,2025
 Mentor:Neela Santhosh Kumar
 
 # Overview of the project
-•	DEVELOP A TOOL TO IDENTIFY COMMON VULNERABILITIES (E.G., SQL INJECTION,XSS) IN WEB APPLICATIONS.
+•	The Python script provided implements a basic web vulnerability scanner that checks for common issues like SQL Injection and Cross-Site Scripting (XSS) in both URLs and forms. It uses the requests library for HTTP requests and BeautifulSoup for parsing HTML content
 
-•	PYTHON-BASED SCANNER USING LIBRARIES LIKE REQUESTS AND BEAUTIFULSOUP.
 
 
