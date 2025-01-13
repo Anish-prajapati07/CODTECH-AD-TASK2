@@ -1,5 +1,6 @@
 # CODTECH-AD-TASK2
 DEVELOP A TOOL TO IDENTIFY COMMON VULNERABILITIES (E.G., SQL INJECTION, XSS) IN WEB APPLICATIONS.
+
 #PERSONAL DETAILS
 Name:Anish Prajapati
 
@@ -21,6 +22,7 @@ Mentor:Neela Santhosh Kumar
 2.	XSS Testing: Checks for XSS vulnerabilities in both URL parameters and HTML forms.
 
 3.	Form Analysis: Extracts and tests forms for vulnerabilities using injected payloads.
+
 # How to Use:
 1.	Run the script and provide a target URL when prompted.
 
@@ -29,6 +31,21 @@ Mentor:Neela Santhosh Kumar
   •	Test the URL for SQL injection and XSS vulnerabilities.
 
   •	Extract and test all forms for XSS.
+
+# Limitations:
+1.	It assumes a simplistic attack surface and payloads.
+
+2.	Does not handle complex multi-step forms or modern CSRF tokens.
+
+3.	Requires the user to provide a base URL with a query parameter
+# OUTPUT
+
+![image](https://github.com/user-attachments/assets/87030b39-1eb0-4024-9126-0eff53b1cf2d)
+
+![image](https://github.com/user-attachments/assets/6976e28d-b50d-4c0a-961c-c036dbf8132d)
+
+
+
 
 
 
