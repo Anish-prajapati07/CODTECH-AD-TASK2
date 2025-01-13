@@ -21,6 +21,16 @@ Mentor:Neela Santhosh Kumar
 2.	XSS Testing: Checks for XSS vulnerabilities in both URL parameters and HTML forms.
 
 3.	Form Analysis: Extracts and tests forms for vulnerabilities using injected payloads.
+# How to Use:
+1.	Run the script and provide a target URL when prompted.
+
+2.	The scanner will:
+
+  •	Test the URL for SQL injection and XSS vulnerabilities.
+
+  •	Extract and test all forms for XSS.
+
+
 
 
 
